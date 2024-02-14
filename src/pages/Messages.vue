@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue';
-    import Message from '../components/message.vue';
+    //import Message from '../components/message.vue';
 
     let isMessageVisible = ref(false);
     let isMessageVisible2 = ref(false);
