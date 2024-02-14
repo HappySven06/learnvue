@@ -1,16 +1,45 @@
 <script setup>
-    import { ref } from 'vue'
-    defineProps(['open'])
+    defineProps({
+        visible: {
+            type: Boolean,
+            required: true,
+        },
+        headerVisible: {
+            type: Boolean,
+        },
+        type: {
+            type: String,
+            default: 'info',
+            validator(value) {
+            return ['info', 'success', 'warning', 'danger'].includes(value);
+        }
+        },
+        size: {
+            type: String,
+            default: 'normal',
+            validator(value) {
+                return['small', 'normal', 'medium', 'large'].includes(value);
+            }
+        },
+        title: {
+            type: String,
+            default: 'Message',
+        },
+        message: {
+            type: String,
+            required: true,
+        }
+    });
 </script>
 
 <template>
-    <article class="message" :class="{'is-active': open}">
-        <div class="message-header">
-            <p>Hello World</p>
-            <button class="delete" aria-label="delete"></button>
+    <div v-if="visible" class="message" :class="['is-' + type], ['is-' + size]">
+        <div v-if="headerVisible" class="message-header">
+            <p>{{ title }}</p>
+            <button class="delete" aria-label="delete" :class="['is-' + size]" @click="$emit('close')"></button>
         </div>
         <div class="message-body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+            {{ message }}
         </div>
-    </article>
+    </div>
 </template>
